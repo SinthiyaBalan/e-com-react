@@ -1,10 +1,14 @@
 import React from 'react'
+import styles from './ProductCard.module.css'
 
 const ProductCard = ( { product }) => {
   return (
-    <div>
-        <div>
-            <img src={ product.images[0] } alt= { product.title } />
+    <div className={styles.cardWrapper + ' section'}>
+        <div 
+            className= {styles.imageWrapper}
+            style={{backgroundImage : `url(${product.images[0]})`}}
+        >
+            
         </div>
 
         <div>
@@ -14,7 +18,7 @@ const ProductCard = ( { product }) => {
             <p>Brand :{ product.brand } </p>
             <p>Price : EUR { product.price } </p>
         </div>
-        <button>Details...</button>
+        <button className= {styles.actionBtn}>Details...</button>
     </div>
   )
 }
