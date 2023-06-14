@@ -8,7 +8,8 @@ const ProductList = () => {
     const [selectedCategory, setSelectedCategory] = useState([]);
     const [currentPage, setCurrentPage] = useState(1)
     const [sortDirection, setsortDirection] = useState('asc');
-    const [sortedProducts, setSortedProducts] = useState(products)
+    const [sortedProducts, setSortedProducts] = useState(products);
+    const [searchQuery, setSearchQuery] = useState('');
 
     const limit = 30;
 
@@ -87,13 +88,31 @@ const ProductList = () => {
           }
         </select>
         <label>Sort by price:</label>
-        <button onClick={handleSort} className='{styles.sortBtn}'>
+        <button onClick={handleSort} className={styles.sortBtn}>
           { sortDirection === 'asc' ? 'Low to High' : 'High to Low'}
         </button>
+
+        <input 
+            type="text"
+            placeholder='Search...'
+            className= {styles.inputField}
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            />
       </div>
         
         <div className={styles.cardsWrapper}>
-        { sortedProducts
+        { searchQuery !== '' ?
+          sortedProducts
+           .filter((product) => 
+              product.title.toLowerCase().includes(searchQuery.toLowerCase())
+           )
+           .map((product) => (
+            <ProductCard key={product.id} product={product}/>
+           ))
+        
+        :
+        sortedProducts
           .filter((product) => selectedCategory == '' || product.category === selectedCategory)
         
           .map((product) => (
